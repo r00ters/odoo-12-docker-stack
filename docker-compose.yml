@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+  web:
+    image: odoo:12.0
+    depends_on:
+      - db
+    ports:
+      - "8069:8069"
+    volumes:
+      - odoo-web-data:/var/lib/odoo
+      - odoo-config-data:/etc/odoo
+      - odoo-addons-data:/mnt/extra-addons
+  db:
+    image: postgres:10
+    environment:
+      - POSTGRES_DB=odoo
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=changeme
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data/pgdata
+volumes:
+  odoo-web-data:
+  odoo-db-data:
+  odoo-config-data:
+  odoo-addons-data:
